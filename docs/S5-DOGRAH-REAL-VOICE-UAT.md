@@ -1,4 +1,4 @@
-# S5 Dograh Real Voice UAT
+﻿# S5 Dograh Real Voice UAT
 
 This runbook moves the verified local S5 path to a real Dograh phone workflow.
 
@@ -224,7 +224,52 @@ Current local result on 2026-08-31:
 - Transfer target is still the safe placeholder `PJSIP/frontdesk-human`.
 - Real phone bridging is therefore not ready yet.
 
-For the free/self-hosted path, use Dograh ARI/Asterisk instead of a paid carrier path:
+For the free/self-hosted path, use Dograh ARI/Asterisk instead of a paid carrier path.
+
+### Automated ARI/Asterisk configuration
+
+When an Asterisk/ARI endpoint is available, configure Dograh from the repo:
+
+```powershell
+cd "C:\Users\user\Documents\00-NHL Global Solution\P04-SalesBot\frontdesk-q"
+
+$env:DOGRAH_ARI_ENDPOINT = "http://127.0.0.1:8088"
+$env:DOGRAH_ARI_APP_NAME = "dograh"
+$env:DOGRAH_ARI_APP_PASSWORD = "<local-ari-password>"
+$env:DOGRAH_ARI_WS_CLIENT_NAME = "dograh_local"
+$env:DOGRAH_INBOUND_SIP_ADDRESS = "sip:frontdesk@127.0.0.1"
+
+corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-ari-telephony.mjs
+```
+
+The script creates or updates a Dograh `ari` telephony configuration, adds the inbound SIP/PJSIP address if needed, and routes it to workflow `1` / `Frontdesk - inbound`.
+
+The script intentionally fails safe until these real values exist:
+
+- `DOGRAH_ARI_ENDPOINT`
+- `DOGRAH_ARI_APP_NAME`
+- `DOGRAH_ARI_APP_PASSWORD`
+- `DOGRAH_INBOUND_SIP_ADDRESS`
+
+It writes local ignored evidence to:
+
+```text
+artifacts/s5-dograh-real-voice/dograh-ari-telephony-config.local.json
+```
+
+Then configure the real human transfer destination and rerun readiness:
+
+```powershell
+$env:DOGRAH_TRANSFER_TARGET = "PJSIP/operator-extension"
+corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-transfer-target.mjs
+corepack pnpm exec tsx --env-file=.env scripts\s5-telephony-readiness.mjs
+```
+
+For a paid PSTN carrier later, `DOGRAH_TRANSFER_TARGET` may be an E.164 number such as `+60123456789`, but do not use that for the free/self-hosted gate.
+
+### Manual ARI/Asterisk configuration
+
+If configuring through the UI instead:
 
 1. In Dograh UI, open <http://127.0.0.1:4174/telephony-configurations>.
 2. Create an `ari` / Asterisk REST Interface telephony configuration.
@@ -235,15 +280,7 @@ For the free/self-hosted path, use Dograh ARI/Asterisk instead of a paid carrier
    - `ws_client_name`: the configured websocket client name when externalMedia requires it.
 4. Add one active phone/SIP address to that config.
 5. Route that address to workflow `1` / `Frontdesk - inbound`.
-6. Configure the real human transfer destination:
-
-```powershell
-$env:DOGRAH_TRANSFER_TARGET = "PJSIP/operator-extension"
-corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-transfer-target.mjs
-corepack pnpm exec tsx --env-file=.env scripts\s5-telephony-readiness.mjs
-```
-
-For a paid PSTN carrier later, `DOGRAH_TRANSFER_TARGET` may be an E.164 number such as `+60123456789`, but do not use that for the free/self-hosted gate.
+6. Configure the real human transfer destination and rerun the readiness gate.
 
 Real phone UAT pass criteria:
 
