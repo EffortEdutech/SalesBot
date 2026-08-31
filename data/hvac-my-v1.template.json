@@ -1,0 +1,35 @@
+{
+  "template_id": "hvac_my_v1",
+  "version": 1,
+  "industry": "hvac",
+  "locale": "en-MY",
+  "currency": "MYR",
+  "required_fields": [
+    "customer.name",
+    "customer.phone",
+    "location.city",
+    "requirements.quantity",
+    "requirements.capacity",
+    "requirements.building_type"
+  ],
+  "bindings": {
+    "hvac_product": {
+      "entity_type": "HVACProduct",
+      "item_source": "catalog",
+      "calculation_type": "quantity_markup",
+      "default_uom": "EA"
+    },
+    "hvac_service": {
+      "entity_type": "HVACService",
+      "item_source": "rate_schedule",
+      "calculation_type": "quantity_markup",
+      "default_uom": "EA",
+      "valid_uoms": ["EA", "M", "HR", "LS"]
+    }
+  },
+  "quote_policy": {
+    "human_approval_required": true,
+    "default_price_disclosure": "quote_only"
+  },
+  "warning": "Synthetic development prices only."
+}

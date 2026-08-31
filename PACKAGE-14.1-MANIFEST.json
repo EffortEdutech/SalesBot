@@ -1,0 +1,16 @@
+{
+  "package": "14.1",
+  "name": "SalesBot Unified Development Platform Hotfix",
+  "root": "frontdesk-q/",
+  "purpose": "Resolve first live TypeScript and Vite dependency validation failures after Package 14.",
+  "files": [
+    "packages/contracts/src/errors.ts",
+    "apps/bridge-api/src/routes/quote-routes.ts",
+    "packages/pricing/src/provisioning.ts",
+    "apps/salesbot-web/package.json",
+    "docs/PACKAGE-14.1-HOTFIX-RUNBOOK.md"
+  ],
+  "requires_after_extract": ["pnpm install"],
+  "database_migrations": [],
+  "financial_authority_changes": false
+}

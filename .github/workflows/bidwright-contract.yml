@@ -1,0 +1,27 @@
+name: Bidwright Contract Tests
+on:
+  workflow_dispatch:
+    inputs:
+      allow_mutation:
+        description: Run mutation tests against disposable test org
+        type: boolean
+        default: false
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    env:
+      BIDWRIGHT_CONTRACT: '1'
+      BIDWRIGHT_CONTRACT_MUTATION: ${{ inputs.allow_mutation && '1' || '0' }}
+      BIDWRIGHT_BASE_URL: ${{ secrets.BIDWRIGHT_CONTRACT_BASE_URL }}
+      BIDWRIGHT_SERVICE_EMAIL: ${{ secrets.BIDWRIGHT_CONTRACT_EMAIL }}
+      BIDWRIGHT_SERVICE_PASSWORD: ${{ secrets.BIDWRIGHT_CONTRACT_PASSWORD }}
+      BIDWRIGHT_ORG_SLUG: ${{ secrets.BIDWRIGHT_CONTRACT_ORG_SLUG }}
+      BIDWRIGHT_EXPECTED_ORG_ID: ${{ secrets.BIDWRIGHT_CONTRACT_ORG_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 9.15.4 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - run: pnpm install --frozen-lockfile=false
+      - run: pnpm test:contract

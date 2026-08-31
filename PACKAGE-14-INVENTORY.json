@@ -1,0 +1,92 @@
+[
+  {
+    "path": "frontdesk-q/.env.example",
+    "bytes": 1016,
+    "sha256": "8c747bccfec4662c7880bee79a0f0910ba3e877305ec86804660ce1b4eb3c876"
+  },
+  {
+    "path": "frontdesk-q/package.json",
+    "bytes": 1044,
+    "sha256": "973f37402a6fe1778770ff5a6c7c7126ed4f8b805d623d36db9f98fdde5b7413"
+  },
+  {
+    "path": "frontdesk-q/scripts/dev.mjs",
+    "bytes": 3330,
+    "sha256": "ce081bf72efa4737b06ae079faf5f4a81c0b6c980ab67d773b06cbaeee8fb725"
+  },
+  {
+    "path": "frontdesk-q/apps/bridge-api/package.json",
+    "bytes": 870,
+    "sha256": "9b3e9b8824d31afb0409ccf21973cacdc08ad84b3278faab3f7c2621612d9e3a"
+  },
+  {
+    "path": "frontdesk-q/apps/bridge-api/src/config.ts",
+    "bytes": 1265,
+    "sha256": "bb451ca859d43e391464c4225e911987b56f49fd50ed6ceb82162e0b87de9da7"
+  },
+  {
+    "path": "frontdesk-q/apps/bridge-api/src/server.ts",
+    "bytes": 3187,
+    "sha256": "4e7a39926a27872a756d6701b92e5321c8c65c0804eb68ba389bab9a74abc738"
+  },
+  {
+    "path": "frontdesk-q/apps/bridge-api/src/routes/operator-routes.ts",
+    "bytes": 10243,
+    "sha256": "fe8a319cffbf64b7e05c5046c10730f4545565f8dc973d8146c1bb4703e5373b"
+  },
+  {
+    "path": "frontdesk-q/apps/bridge-api/tests/operator-routes.test.ts",
+    "bytes": 4363,
+    "sha256": "7395ebc4353c7896214fef79546e626571e1df708e583510969f1690ea1c1612"
+  },
+  {
+    "path": "frontdesk-q/apps/bridge-api/tests/config.test.ts",
+    "bytes": 422,
+    "sha256": "f0ec38e18dad17926f9fedaf0fb07e37fd87886b800009ce82154ffb67192fce"
+  },
+  {
+    "path": "frontdesk-q/apps/salesbot-web/.env.example",
+    "bytes": 265,
+    "sha256": "ea05350528b5c0a707623c144ea190cb68333cba5cdc65f749b46187154e1e47"
+  },
+  {
+    "path": "frontdesk-q/apps/salesbot-web/vite.config.ts",
+    "bytes": 849,
+    "sha256": "6385a69cc67e2952ecbbc4d43e6de9f33353f3219755053d56fa3dadb0001c7d"
+  },
+  {
+    "path": "frontdesk-q/apps/salesbot-web/src/api.ts",
+    "bytes": 5622,
+    "sha256": "97a822f0c83ee389c907f904e898557703ecb54d78d5269175640f6f295e3f89"
+  },
+  {
+    "path": "frontdesk-q/apps/salesbot-web/src/api.test.ts",
+    "bytes": 2707,
+    "sha256": "45b86df135c79901f40bc8ec9ae8e49c5e9d19730ade332ce51da32706b29762"
+  },
+  {
+    "path": "frontdesk-q/apps/salesbot-web/src/App.tsx",
+    "bytes": 22731,
+    "sha256": "4279c0416eeb6bb66127ec275fc7949bc02bdc1fbdc28389b85add8f91a6e750"
+  },
+  {
+    "path": "frontdesk-q/apps/salesbot-web/src/styles.css",
+    "bytes": 7314,
+    "sha256": "d8e9965187e5a4565529ca50202a2db9444149cc137d15eeb1ed109e7448edae"
+  },
+  {
+    "path": "frontdesk-q/docs/PACKAGE-14-UNIFIED-DEV-PLATFORM.md",
+    "bytes": 2388,
+    "sha256": "0d01994d6b2a5c5cee74f6d283a28822ac301d1f1ea0cd2aced9b41c2f32a259"
+  },
+  {
+    "path": "frontdesk-q/docs/PACKAGE-14-RUNBOOK.md",
+    "bytes": 2495,
+    "sha256": "010a17becd5cb853f78eac14202744f8019be94fd66c25febbad0f0dbde3a92e"
+  },
+  {
+    "path": "frontdesk-q/PACKAGE-14-MANIFEST.json",
+    "bytes": 1279,
+    "sha256": "35f236b18d85bc19fe5a2a573e6af74d62c28ff2084e7ccd5f5cf937ef7b4922"
+  }
+]

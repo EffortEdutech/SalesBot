@@ -1,0 +1,31 @@
+{
+  "repository": "braedonsaunders/bidwright",
+  "sha": "88f50e4f8b6fc1db35bdde67ff984dd2a7d8a78c",
+  "verified_routes": [
+    ["POST", "/api/auth/login"],
+    ["POST", "/projects"],
+    ["GET", "/projects/:projectId"],
+    ["GET", "/catalogs"],
+    ["POST", "/catalogs"],
+    ["GET", "/catalogs/:catalogId/items"],
+    ["POST", "/catalogs/:catalogId/items"],
+    ["GET", "/entity-categories"],
+    ["POST", "/entity-categories"],
+    ["GET", "/api/rate-schedules"],
+    ["POST", "/api/rate-schedules"],
+    ["POST", "/api/rate-schedules/:id/tiers"],
+    ["POST", "/api/rate-schedules/:id/items"],
+    ["POST", "/projects/:projectId/rate-schedules/import"],
+    ["GET", "/projects/:projectId/rate-schedules"],
+    ["POST", "/projects/:projectId/worksheets"],
+    ["POST", "/projects/:projectId/worksheets/:worksheetId/items"],
+    ["POST", "/projects/:projectId/recalculate"],
+    ["POST", "/projects/:projectId/revisions"],
+    ["GET", "/projects/:projectId/pdf/main"],
+    ["GET", "/projects"],
+    ["GET", "/projects/:projectId/workspace"],
+    ["PATCH", "/catalogs/:catalogId/items/:itemId"],
+    ["PATCH", "/api/rate-schedules/:id"],
+    ["PATCH", "/api/rate-schedules/:id/items/:itemId"]
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "package": 14,
+  "name": "SalesBot Unified Development Platform",
+  "created": "2026-08-20",
+  "root": "frontdesk-q/",
+  "depends_on": ["frontdesk-q foundation through M1", "Package 13 SalesBot Operator Console"],
+  "goals": [
+    "one-command pnpm dev",
+    "root .env loading for Bridge and Vite",
+    "frozen dev ports Bridge 4170, UI 4173, Bidwright 4171",
+    "authenticated system diagnostics in operator console",
+    "connection verification before console entry",
+    "no browser exposure of financial or server secrets"
+  ],
+  "database_migration_required": false,
+  "new_runtime_dependencies": [],
+  "files": [
+    ".env.example",
+    "package.json",
+    "scripts/dev.mjs",
+    "apps/bridge-api/package.json",
+    "apps/bridge-api/src/config.ts",
+    "apps/bridge-api/src/server.ts",
+    "apps/bridge-api/src/routes/operator-routes.ts",
+    "apps/bridge-api/tests/operator-routes.test.ts",
+    "apps/bridge-api/tests/config.test.ts",
+    "apps/salesbot-web/.env.example",
+    "apps/salesbot-web/vite.config.ts",
+    "apps/salesbot-web/src/api.ts",
+    "apps/salesbot-web/src/api.test.ts",
+    "apps/salesbot-web/src/App.tsx",
+    "apps/salesbot-web/src/styles.css",
+    "docs/PACKAGE-14-UNIFIED-DEV-PLATFORM.md",
+    "docs/PACKAGE-14-RUNBOOK.md"
+  ]
+}

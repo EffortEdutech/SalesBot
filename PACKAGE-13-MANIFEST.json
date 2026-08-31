@@ -1,0 +1,17 @@
+{
+  "package": "13-salesbot-operator-console",
+  "version": "0.1.0",
+  "root": "frontdesk-q/",
+  "generated_at": "2026-08-19",
+  "application": "apps/salesbot-web",
+  "new_bridge_routes": [
+    "GET /v1/operator/overview",
+    "GET /v1/operator/intakes",
+    "GET /v1/operator/quotes",
+    "GET /v1/operator/operations"
+  ],
+  "server_integration": "node scripts/apply-package-13.mjs",
+  "financial_authority": "Bridge + Bidwright; browser cannot submit authoritative money",
+  "production_operator_auth": "NOT YET COMPLETE",
+  "human_approval_backend": "NOT INCLUDED"
+}

@@ -1,0 +1,30 @@
+{
+  "package": "14.2",
+  "name": "SalesBot Runtime Isolation",
+  "root": "frontdesk-q/",
+  "purpose": "Make local development startup repeatable by isolating SalesBot runtime ports, exposing status/stop commands, binding Bridge and the UI to loopback, and clearing stale dev browser caches.",
+  "files": [
+    "package.json",
+    "scripts/dev.mjs",
+    "scripts/dev-processes.mjs",
+    "scripts/dev-status.mjs",
+    "scripts/dev-stop.mjs",
+    "tests/runtime/dev-processes.test.mjs",
+    "apps/salesbot-web/vite.config.ts",
+    "apps/salesbot-web/src/main.tsx",
+    "apps/bridge-api/src/app.ts",
+    "apps/bridge-api/src/config.ts",
+    "docs/PACKAGE-14.2-RUNTIME-ISOLATION.md",
+    "TASK-PACKAGE-MAP.md"
+  ],
+  "requires_after_extract": [
+    "pnpm install",
+    "pnpm dev:status",
+    "pnpm dev:stop",
+    "pnpm test -- tests/runtime/dev-processes.test.mjs",
+    "pnpm --filter @frontdesk-q/bridge-api test",
+    "pnpm --filter @frontdesk-q/salesbot-web typecheck"
+  ],
+  "database_migrations": [],
+  "financial_authority_changes": false
+}

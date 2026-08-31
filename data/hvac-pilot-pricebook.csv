@@ -1,0 +1,12 @@
+code,type,name,aliases,uom,cost,sell_price,category,enabled,effective_date,expiry_date,price_disclosure,notes
+HVAC-AC-10,product,DemoAir Inverter Split AC 1.0HP,1HP aircond|1.0HP AC|1 horsepower air conditioner,EA,1100.00,1450.00,HVAC Product,true,2026-08-19,2027-08-18,quote_only,SYNTHETIC TEST DATA
+HVAC-AC-15,product,DemoAir Inverter Split AC 1.5HP,1.5HP aircond|1.5HP AC|one and half horsepower air conditioner,EA,1350.00,1750.00,HVAC Product,true,2026-08-19,2027-08-18,quote_only,SYNTHETIC TEST DATA
+HVAC-AC-20,product,DemoAir Inverter Split AC 2.0HP,2HP aircond|2.0HP AC|2 horsepower air conditioner,EA,1650.00,2150.00,HVAC Product,true,2026-08-19,2027-08-18,quote_only,SYNTHETIC TEST DATA
+HVAC-INSTALL-10,service,Standard AC Installation - 1.0HP,install 1HP aircond|1HP AC installation,EA,250.00,350.00,HVAC Service,true,2026-08-19,2027-08-18,quote_only,SYNTHETIC TEST DATA
+HVAC-INSTALL-15,service,Standard AC Installation - 1.5HP,install 1.5HP aircond|1.5HP AC installation,EA,280.00,400.00,HVAC Service,true,2026-08-19,2027-08-18,quote_only,SYNTHETIC TEST DATA
+HVAC-INSTALL-20,service,Standard AC Installation - 2.0HP,install 2HP aircond|2HP AC installation,EA,320.00,450.00,HVAC Service,true,2026-08-19,2027-08-18,quote_only,SYNTHETIC TEST DATA
+HVAC-COPPER-M,service,Additional Copper Piping,extra copper pipe|copper piping|copper line,M,18.00,35.00,HVAC Service,true,2026-08-19,2027-08-18,allowed,SYNTHETIC TEST DATA
+HVAC-DRAIN-M,service,Additional Drain Piping,drain pipe|condensate drain|extra drain piping,M,5.00,12.00,HVAC Service,true,2026-08-19,2027-08-18,allowed,SYNTHETIC TEST DATA
+HVAC-BRACKET-EA,service,Outdoor Unit Wall Bracket Set,aircond bracket|outdoor bracket|wall bracket,EA,45.00,80.00,HVAC Service,true,2026-08-19,2027-08-18,allowed,SYNTHETIC TEST DATA
+HVAC-CALLOUT-EA,service,Site Survey / Call-Out,site visit|call out|inspection visit|survey visit,EA,40.00,80.00,HVAC Service,true,2026-08-19,2027-08-18,allowed,SYNTHETIC TEST DATA
+HVAC-LAB-HR,service,Additional HVAC Technician Labour,extra labour|technician hour|additional technician,HR,30.00,60.00,HVAC Service,true,2026-08-19,2027-08-18,human_only,SYNTHETIC TEST DATA

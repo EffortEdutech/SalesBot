@@ -1,0 +1,25 @@
+{
+  "file_count": 21,
+  "sha256": {
+    "PACKAGE-13-MANIFEST.json": "b1906170a9e48eb19cf43fee67bc5ae7290b526a2b985a1fd315d3cbb24d530c",
+    "apps/bridge-api/src/routes/operator-routes.ts": "725679eb96726e97c58fd96cfae5e22864def490faeefbf99ba595120f478488",
+    "apps/bridge-api/tests/operator-routes.test.ts": "510dfc3b466b78f5846931624c43a697d80cb4070ed1cdc33ca53063cb119f88",
+    "apps/salesbot-web/.env.example": "9d276ad96096ebe6b248af2a991d24f1f9ba5cd3e277a79462213860547d621e",
+    "apps/salesbot-web/README.md": "41204b212bafc2508d13689981ee7abbbfc3ac422d0115fedcd42a85db5b2bbb",
+    "apps/salesbot-web/index.html": "84746e5b92d5295b354228a56f3a306eef9553b9c70293e4b9b8b1ff445b1802",
+    "apps/salesbot-web/package.json": "8ae543aac376c7d8ced57cf69e7dfaca271207eeafca8b1005878fa0ee4523c8",
+    "apps/salesbot-web/src/App.tsx": "87581744f9b103bd2186dcb3c69cafb492ee36d58f7abf0ad48f7cd47d73f44a",
+    "apps/salesbot-web/src/api.test.ts": "282ac43f3b4b1cb4dea9bb37c4542fbd0d6952162020ae92c831cf7c34994702",
+    "apps/salesbot-web/src/api.ts": "a62356aae9b04bab76cd488750d1d60715debaed15c811ce3c60b4156b3731a1",
+    "apps/salesbot-web/src/main.tsx": "deda1aba5c9fc87ab2aee2a2443f7171a3ccfcd000fe123071daf084155ff81d",
+    "apps/salesbot-web/src/styles.css": "1f62e5284ca2923715213582e45b3b5c4e189f27ba4c5d4d07f121e3c5d6bc74",
+    "apps/salesbot-web/src/vite-env.d.ts": "2863ada73f3388a399f1772292b66c2c878a2d4e7869d93b9b88db222c0f3248",
+    "apps/salesbot-web/tsconfig.app.json": "b53252836a0f9c7c705d1a5f5c3322cbb349e6bd478c677a2b88df98b4733179",
+    "apps/salesbot-web/tsconfig.json": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808",
+    "apps/salesbot-web/tsconfig.node.json": "4d899360a26430461f39fa0b9297a566eab26e2fc53c28c6eb34d3c5f344d9c6",
+    "apps/salesbot-web/vite.config.ts": "4c7a2d5098dcd336045fa0cc959fd836dd5ff7e436f8ca00d98027349ceabb9a",
+    "docs/OPERATOR-CONSOLE-NEXT-GATE.md": "b7299f8ddf09415e0ccf280fb1c9aba5e09cbb2d250580248bb517a60e7e2888",
+    "docs/PACKAGE-13-SALESBOT-OPERATOR-CONSOLE.md": "586602cf191d1dad9fad337e0436ffd8026387146c3002c2a864091e5a80b11e",
+    "scripts/apply-package-13.mjs": "967c3f58af0c36f38f4f0708887e998c2a246f0d9dcfdf9b8b43f7876b2cdc26"
+  }
+}

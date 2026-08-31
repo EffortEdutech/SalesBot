@@ -1,0 +1,16 @@
+import { createHash } from 'node:crypto';
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, child]) => [key, canonicalize(child)]),
+    );
+  }
+  return value;
+}
+export const canonicalJson = (value: unknown) => JSON.stringify(canonicalize(value));
+export const requestHash = (value: unknown) =>
+  createHash('sha256').update(canonicalJson(value), 'utf8').digest('hex');
