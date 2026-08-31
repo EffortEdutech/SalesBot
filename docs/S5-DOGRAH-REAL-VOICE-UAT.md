@@ -131,3 +131,48 @@ Expected result:
 - Human operator can later approve and deliver through the console.
 
 After the real call, capture the Dograh workflow run ID and Bridge quote ID in `CURRENT-SPRINT-PLAN.md`.
+
+## 5. Human transfer Web Call UAT
+
+Configure the native Dograh transfer target before the live Web Call:
+
+```powershell
+cd "C:\Users\user\Documents\00-NHL Global Solution\P04-SalesBot\frontdesk-q"
+corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-transfer-target.mjs
+```
+
+By default, local development uses this safe non-dialing transfer target:
+
+```text
+PJSIP/frontdesk-human
+```
+
+Use a real SIP/PSTN destination only when you are ready for carrier UAT:
+
+```powershell
+$env:DOGRAH_TRANSFER_TARGET = "sip:operator@your-pbx.example.com"
+corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-transfer-target.mjs
+```
+
+Run the backend transfer drill before audio UAT:
+
+```powershell
+corepack pnpm exec tsx --env-file=.env scripts\s5-dograh-transfer-drill.mjs
+```
+
+Expected backend result:
+
+- `frontdesk_q_transfer_to_human` appears as `tool_call_started`.
+- `frontdesk_q_transfer_to_human` appears as `tool_call_result`.
+- No approval, PDF export, delivery, or quote-send tool is exposed to Dograh.
+
+Manual Web Call steps:
+
+1. Open Dograh UI: <http://127.0.0.1:4174/workflow>
+2. Open `Frontdesk - inbound`.
+3. Start the Test/Web Call panel.
+4. Say clearly: `I want to speak to a human.`
+5. Expected voice behaviour: Dograh stops HVAC intake and says it will connect the caller to a human operator.
+6. Expected run evidence: the run includes `frontdesk_q_transfer_to_human`.
+7. In local-only mode, actual call bridging may not complete unless a PBX/SIP/PSTN target exists. The local pass gate is the transfer tool invocation and safe handoff message.
+8. Record the Dograh workflow run ID and result in `CURRENT-SPRINT-PLAN.md`.
