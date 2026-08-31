@@ -198,3 +198,57 @@ Expected result:
 - Reusing the same idempotency key with a changed body returns `IDEMPOTENCY_KEY_REUSED`.
 
 This is the safe-failure gate: Dograh must never invent a quote total or advance to approval/delivery when Bidwright is unavailable.
+## 7. Telephony/SIP readiness gate
+
+Before claiming real phone transfer UAT, run:
+
+```powershell
+cd "C:\Users\user\Documents\00-NHL Global Solution\P04-SalesBot\frontdesk-q"
+corepack pnpm exec tsx --env-file=.env scripts\s5-telephony-readiness.mjs
+```
+
+The readiness gate checks:
+
+- Dograh API is reachable.
+- `Frontdesk - inbound` exists.
+- `frontdesk_q_transfer_to_human` exists and is attached to both Start Call and Main Agenda.
+- Transfer destination is a real SIP/PSTN target, not the local placeholder `PJSIP/frontdesk-human`.
+- Dograh has at least one active telephony configuration.
+- At least one active phone/SIP address routes inbound calls to workflow `1`.
+
+Current local result on 2026-08-31:
+
+- Dograh API and workflow are reachable.
+- Transfer tool is configured and attached correctly.
+- Dograh has an active `Dograh Cloudonix SIP` config, but it has zero routed numbers.
+- Transfer target is still the safe placeholder `PJSIP/frontdesk-human`.
+- Real phone bridging is therefore not ready yet.
+
+For the free/self-hosted path, use Dograh ARI/Asterisk instead of a paid carrier path:
+
+1. In Dograh UI, open <http://127.0.0.1:4174/telephony-configurations>.
+2. Create an `ari` / Asterisk REST Interface telephony configuration.
+3. Required ARI fields:
+   - `ari_endpoint`: your Asterisk ARI base URL, for example `http://127.0.0.1:8088` or a LAN host URL.
+   - `app_name`: ARI username from `ari.conf`.
+   - `app_password`: ARI password from `ari.conf`.
+   - `ws_client_name`: the configured websocket client name when externalMedia requires it.
+4. Add one active phone/SIP address to that config.
+5. Route that address to workflow `1` / `Frontdesk - inbound`.
+6. Configure the real human transfer destination:
+
+```powershell
+$env:DOGRAH_TRANSFER_TARGET = "PJSIP/operator-extension"
+corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-transfer-target.mjs
+corepack pnpm exec tsx --env-file=.env scripts\s5-telephony-readiness.mjs
+```
+
+For a paid PSTN carrier later, `DOGRAH_TRANSFER_TARGET` may be an E.164 number such as `+60123456789`, but do not use that for the free/self-hosted gate.
+
+Real phone UAT pass criteria:
+
+- Inbound caller reaches Dograh through the configured phone/SIP address.
+- Caller says: `I want to speak to a human.`
+- Dograh invokes `frontdesk_q_transfer_to_human`.
+- Telephony provider bridges the call to the configured human destination.
+- UAT evidence records Dograh workflow run ID, provider call ID, transfer destination, and transfer outcome.
