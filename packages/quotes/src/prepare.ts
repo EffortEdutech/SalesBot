@@ -172,6 +172,31 @@ export class QuotePreparationService {
     return result;
   }
 
+  private async markUpstreamUnknown(input: {
+    operation: BridgeOperation;
+    executionId: string;
+    quote: QuoteRecord;
+    code?: string;
+    message: string;
+    userSafeMessage: string;
+  }): Promise<never> {
+    await this.quotes.updateQuote(input.quote.tenantId, input.quote.id, {
+      status: 'upstream_unknown',
+    });
+    await this.idempotency.upstreamUnknown(
+      input.operation.id,
+      input.executionId,
+      input.code ?? 'UPSTREAM_STATE_UNKNOWN',
+    );
+    throw new AppError(
+      'UPSTREAM_STATE_UNKNOWN',
+      input.message,
+      409,
+      true,
+      input.userSafeMessage,
+    );
+  }
+
   private async reconcileProject(
     client: QuoteProviderClient,
     quote: QuoteRecord,
@@ -318,6 +343,17 @@ export class QuotePreparationService {
           calculationValid: false,
         });
       }
+      const appError = asAppError(error);
+      if (appError?.retryable) {
+        return this.markUpstreamUnknown({
+          operation,
+          executionId,
+          quote,
+          code: appError.code,
+          message: `Bidwright pricing resolution is unavailable: ${appError.code}`,
+          userSafeMessage: 'The quotation is being reconciled.',
+        });
+      }
       throw error;
     }
 
@@ -334,7 +370,23 @@ export class QuotePreparationService {
       });
     }
     const priceBook = resolved[0]!.priceBook;
-    const provider = await this.quoteClients.forTenant(input.tenantId);
+    let provider: QuoteProviderClient;
+    try {
+      provider = await this.quoteClients.forTenant(input.tenantId);
+    } catch (error) {
+      const appError = asAppError(error);
+      if (appError?.retryable) {
+        return this.markUpstreamUnknown({
+          operation,
+          executionId,
+          quote,
+          code: appError.code,
+          message: `Bidwright quote client is unavailable: ${appError.code}`,
+          userSafeMessage: 'The quotation is being reconciled.',
+        });
+      }
+      throw error;
+    }
 
     if (begin.kind === 'reconcile' && operation.currentStep === 'create_project_uncertain') {
       const refs = await this.reconcileProject(provider, quote);

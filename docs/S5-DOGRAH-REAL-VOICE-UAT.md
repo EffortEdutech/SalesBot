@@ -176,3 +176,25 @@ Manual Web Call steps:
 6. Expected run evidence: the run includes `frontdesk_q_transfer_to_human`.
 7. In local-only mode, actual call bridging may not complete unless a PBX/SIP/PSTN target exists. The local pass gate is the transfer tool invocation and safe handoff message.
 8. Record the Dograh workflow run ID and result in `CURRENT-SPRINT-PLAN.md`.
+
+## 6. Controlled Bidwright outage drill
+
+Run this after Web Call and transfer-tool UAT, before real telephony/SIP UAT:
+
+```powershell
+cd "C:\Users\user\Documents\00-NHL Global Solution\P04-SalesBot\frontdesk-q"
+corepack pnpm exec tsx --env-file=.env scripts\s5-dograh-outage-drill.mjs
+```
+
+The drill starts a disposable Bridge on `http://127.0.0.1:4179` and points only that disposable process at a dead Bidwright URL, `http://127.0.0.1:4199`. It does not stop or mutate the normal app ports `4170` through `4174`.
+
+Expected result:
+
+- Dograh `ai_runtime` can authenticate against the disposable Bridge.
+- Offering search and intake capture still work.
+- `prepare_quote` returns `409 UPSTREAM_STATE_UNKNOWN` when Bidwright is unavailable.
+- The Bridge operation is marked `upstream_unknown` for reconciliation.
+- The quote shell is marked `upstream_unknown` with no quote number, no Bidwright project/quote/revision IDs, and no grand total.
+- Reusing the same idempotency key with a changed body returns `IDEMPOTENCY_KEY_REUSED`.
+
+This is the safe-failure gate: Dograh must never invent a quote total or advance to approval/delivery when Bidwright is unavailable.
