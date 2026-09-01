@@ -1,0 +1,15 @@
+[general]
+static = yes
+writeprotect = no
+clearglobalvars = no
+
+[globals]
+
+[local-softphones]
+exten => 7001,1,NoOp(Frontdesk-Q Dograh inbound extension ${EXTEN})
+ same => n,Stasis(__DOGRAH_STASIS_APP__)
+ same => n,Hangup()
+
+exten => 1002,1,NoOp(Frontdesk-Q human operator extension ${EXTEN})
+ same => n,Dial(PJSIP/1002,30)
+ same => n,Hangup()

@@ -282,6 +282,76 @@ If configuring through the UI instead:
 5. Route that address to workflow `1` / `Frontdesk - inbound`.
 6. Configure the real human transfer destination and rerun the readiness gate.
 
+### Local Asterisk test stack
+
+For a free local phone lab, use the repo-owned Asterisk stack under `providers/asterisk-local`.
+
+This stack uses:
+
+| Purpose | Value |
+| ------- | ----- |
+| Asterisk ARI endpoint from Dograh container | `http://host.docker.internal:8088` |
+| Asterisk ARI endpoint from Windows host | `http://127.0.0.1:8088` |
+| ARI user | `dograh` |
+| ARI password | `frontdeskq_ari_dev_only` |
+| WebSocket client name | `dograh_local` |
+| Caller softphone extension | `1001` / `frontdesk1001` |
+| Human/operator softphone extension | `1002` / `frontdesk1002` |
+| Dograh inbound extension | `7001` |
+| Transfer target | `PJSIP/1002` |
+
+Run from `frontdesk-q`:
+
+```powershell
+$env:DOGRAH_ARI_ENDPOINT = "http://host.docker.internal:8088"
+$env:DOGRAH_ARI_APP_NAME = "dograh"
+$env:DOGRAH_ARI_APP_PASSWORD = "frontdeskq_ari_dev_only"
+$env:DOGRAH_ARI_WS_CLIENT_NAME = "dograh_local"
+$env:DOGRAH_INBOUND_SIP_ADDRESS = "7001"
+corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-ari-telephony.mjs
+
+corepack pnpm exec tsx --env-file=.env scripts\s5-render-asterisk-local-config.mjs
+
+docker compose -f providers\asterisk-local\docker-compose.yaml up -d
+
+$env:DOGRAH_TRANSFER_TARGET = "PJSIP/1002"
+corepack pnpm exec tsx --env-file=.env scripts\s5-configure-dograh-transfer-target.mjs
+corepack pnpm exec tsx --env-file=.env scripts\s5-check-asterisk-local.mjs
+corepack pnpm exec tsx --env-file=.env scripts\s5-telephony-readiness.mjs
+```
+
+Softphone setup:
+
+1. Install or open two SIP softphones, or use two devices.
+2. Register caller account:
+   - SIP username: `1001`
+   - Password: `frontdesk1001`
+   - Domain/host: `127.0.0.1`
+   - Port: `5060`
+3. Register human/operator account:
+   - SIP username: `1002`
+   - Password: `frontdesk1002`
+   - Domain/host: `127.0.0.1`
+   - Port: `5060`
+4. From caller `1001`, dial `7001`.
+5. Say: `I want to speak to a human.`
+6. Expected: Dograh invokes `frontdesk_q_transfer_to_human`, then Asterisk attempts transfer to `PJSIP/1002`.
+
+Check PBX evidence:
+
+```powershell
+docker compose -f providers\asterisk-local\docker-compose.yaml logs --tail=120 asterisk
+docker exec -it frontdeskq-asterisk-local asterisk -rvvv
+```
+
+Useful Asterisk CLI commands:
+
+```text
+pjsip show contacts
+pjsip show endpoints
+ari show apps
+dialplan show local-softphones
+```
 Real phone UAT pass criteria:
 
 - Inbound caller reaches Dograh through the configured phone/SIP address.

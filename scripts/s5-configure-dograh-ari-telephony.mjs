@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+﻿import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 const dograhBaseUrl = (process.env.DOGRAH_BASE_URL ?? 'http://127.0.0.1:4172').replace(/\/+$/, '');
@@ -69,6 +69,7 @@ function maskedConfigSummary(config) {
     app_name: config.app_name,
     app_password: config.app_password ? '<set>' : '<missing>',
     ws_client_name: config.ws_client_name || null,
+    stasis_app_name: config.stasis_app_name || null,
   };
 }
 
@@ -112,9 +113,12 @@ async function main() {
   const configBody = ariConfigBody();
   const telephonyList = (await dograh('/organizations/telephony-configs', { token })).payload;
   const configurations = telephonyList.configurations ?? [];
+  const activeConfigurations = configurations.filter((config) => config.inactive !== true);
+  const inactiveConfigurations = configurations.filter((config) => config.inactive === true);
   const existingConfig =
-    configurations.find((config) => config.provider === 'ari' && config.name === configName) ??
-    configurations.find((config) => config.provider === 'ari');
+    activeConfigurations.find((config) => config.provider === 'ari' && config.name === configName) ??
+    activeConfigurations.find((config) => config.provider === 'ari') ??
+    inactiveConfigurations.find((config) => config.provider === 'ari' && config.name === configName);
 
   const configPayload = {
     name: configName,
@@ -139,6 +143,13 @@ async function main() {
 
   const configId = savedConfig.id ?? existingConfig?.id;
   if (!configId) throw new Error(`Dograh did not return a telephony configuration id: ${JSON.stringify(savedConfig)}`);
+
+  if (existingConfig?.inactive === true) {
+    await dograh(`/organizations/telephony-configs/${configId}/reactivate`, {
+      method: 'POST',
+      token,
+    });
+  }
 
   const numbersResponse = (await dograh(`/organizations/telephony-configs/${configId}/phone-numbers`, { token })).payload;
   const phoneNumbers = numbersResponse.phone_numbers ?? [];
@@ -192,7 +203,7 @@ async function main() {
       connectivity: detail.connectivity ?? null,
       supports_trunks: detail.supports_trunks ?? null,
       setup_checklist: detail.setup_checklist ?? null,
-      credentials: maskedConfigSummary(configBody),
+      credentials: maskedConfigSummary(detail.credentials ?? configBody),
     },
     inbound_address: {
       id: savedNumber.id,
